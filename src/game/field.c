@@ -10,6 +10,7 @@
 #include "game/input.h"
 #include "game/cell.h"
 #include "game/smile.h"
+#include "game/counter.h"
 
 #include "graphics/renderer.h"
 #include "graphics/texture.h"
@@ -25,6 +26,8 @@ int                             mouse_cur_cell_y;
 
 extern int                      input_mouse_pos_x;
 extern int                      input_mouse_pos_y;
+
+extern counter_t               *game_mines_counter;
 
 field_t *new_field(int width, int height, int mines_count)
 {
@@ -267,6 +270,7 @@ void field_on_mouse(field_t *field, mouse_event_t e)
                 {
                 case CELL_STATE_FLAGGED:
                     cell->state = CELL_STATE_QUESTIONED;
+                    game_mines_counter->value++;
                     break;
 
                 case CELL_STATE_QUESTIONED:
@@ -275,6 +279,7 @@ void field_on_mouse(field_t *field, mouse_event_t e)
                 
                 case CELL_STATE_CLOSED:
                     cell->state = CELL_STATE_FLAGGED;
+                    game_mines_counter->value--;
                     break;
                 }
 
@@ -323,6 +328,9 @@ cell_t *field_reveal_cell(field_t *field, int cell_x, int cell_y)
 
                 if (nb_cell)
                 {
+                    if (nb_cell->state == CELL_STATE_FLAGGED)
+                        continue;
+
                     if (nb_cell->type != CELL_TYPE_BOMB)
                         field_reveal_cell(field, x, y);
                 }
@@ -368,7 +376,7 @@ void field_destroy(field_t *field)
     if (field)
     {
         for (int i = 0; i < field->width; i++)
-        free(field->cells[i]);
+            free(field->cells[i]);
 
         free(field->cells);
         free(field);

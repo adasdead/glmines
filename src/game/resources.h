@@ -7,7 +7,8 @@ enum resource_type
 {
     RES_CELL,
     RES_BORDER,
-    RES_SMILE
+    RES_SMILE,
+    RES_COUNTER
 };
 
 void resources_load_all(void);

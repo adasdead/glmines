@@ -17,6 +17,7 @@ shader_t            resources_default_shader;
 render_target_t     resources_cell_rt[CELL_TYPES_TOTAL];
 render_target_t     resources_border_rt[BORDER_DIR_TOTAL];
 render_target_t     resources_smile_rt[SMILE_STATES_TOTAL];
+render_target_t     resources_counter_rt[10];
 
 int                 resources_loaded = 0;
 
@@ -39,6 +40,8 @@ void resources_load_all(void)
         resources_load_rt(resources_smile_rt, SMILE_TEX_PATH_FMT,
                           SMILE_STATES_TOTAL);
 
+        resources_load_rt(resources_counter_rt, COUNTER_TEX_PATH_FMT, 10);
+        
         resources_loaded = 1;
     }
 }
@@ -72,6 +75,9 @@ render_target_t *resources_get(int res_type, int id)
         
         case RES_SMILE:
             return resources_smile_rt + id;
+        
+        case RES_COUNTER:
+            return resources_counter_rt + id;
         }
     }
 
@@ -89,6 +95,12 @@ void resources_free(void)
 
         for (int i = 0; i < BORDER_DIR_TOTAL; i++)
             texture2d_destroy(resources_border_rt[i].texture);
+
+        for (int i = 0; i < SMILE_STATES_TOTAL; i++)
+            texture2d_destroy(resources_smile_rt[i].texture);
+        
+        for (int i = 0; i < 10; i++)
+            texture2d_destroy(resources_counter_rt[i].texture);
 
         resources_loaded = 0;
     }

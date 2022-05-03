@@ -1,6 +1,7 @@
 #include "game/game.h"
 
 #include <stdio.h>
+#include <time.h>
 
 #include "game/border.h"
 #include "game/field.h"
@@ -8,6 +9,7 @@
 #include "game/input.h"
 #include "game/smile.h"
 #include "game/resources.h"
+#include "game/counter.h"
 
 #include "graphics/renderer.h"
 
@@ -22,7 +24,12 @@ mat4_t                       game_projection;
 field_t                     *game_field = NULL;
 smile_t                     *game_smile = NULL;
 
+counter_t                   *game_timer = NULL;
+counter_t                   *game_mines_counter = NULL;
+
 int                          game_state = GAME_STATE_IDLE;
+
+int                          game_start_time = 0;
 
 game_difficulty_t            game_diff_current;
 
@@ -49,6 +56,9 @@ void game_init(void)
     game_projection = new_matrix4();
     game_renderer = new_renderer(&game_projection);
 
+    game_mines_counter = new_counter(0, 3, 1);
+    game_timer = new_counter(0, 0, 1);
+
     game_new(game_diff[GAME_DIF_BEGGINER]);
 }
 
@@ -63,6 +73,17 @@ void game_loop(void)
         border_draw(game_renderer, game_field);
         field_draw(game_field, game_renderer);
         smile_draw(game_smile, game_renderer);
+
+        if (game_state == GAME_STATE_STARTED)
+        {
+            if (game_start_time == 0)
+                game_start_time = time(NULL);
+            
+            game_timer->value = time(NULL) - game_start_time;
+        }
+
+        counter_draw(game_mines_counter, game_renderer);
+        counter_draw(game_timer, game_renderer);
 
         window_swap_buffers();
     }
@@ -109,7 +130,15 @@ void game_new(game_difficulty_t diff)
                            diff.field_height,
                            diff.mines_count);
 
+    game_start_time = 0;
+
+    game_timer->left = projection_right - 2;
+    game_timer->value = game_start_time;
+
+    game_mines_counter->value = diff.mines_count;
+
     game_set_state(GAME_STATE_IDLE);
+
     game_diff_current = diff;
 }
 
@@ -180,6 +209,10 @@ void game_free(void)
 {
     renderer_destroy(game_renderer);
     matrix4_destroy(game_projection);
+
+    counter_destroy(game_mines_counter);
+    counter_destroy(game_timer);
+
     field_destroy(game_field);
     smile_destroy(game_smile);
 

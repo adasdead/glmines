@@ -1,8 +1,6 @@
 #ifndef _GAME_WINDOW_H_
 #define _GAME_WINDOW_H_
 
-typedef void (*window_mouse_fun_t)(int, int, int, int);
-
 void window_create(const char *window_name,
                    int base_width, int base_height);
 
