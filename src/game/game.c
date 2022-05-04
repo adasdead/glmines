@@ -1,3 +1,26 @@
+/*
+                                  The MIT License (MIT)
+
+                               Copyright (c) 2022 adasdead
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this
+    software and associated documentation files (the "Software"), to deal in the Software
+    without restriction, including without limitation the rights to use, copy, modify,
+    merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to the following
+    conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR
+    A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+    HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+    CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+    OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 #include "game/game.h"
 
 #include <stdio.h>
@@ -21,15 +44,15 @@
 renderer_t                  *game_renderer;
 mat4_t                       game_projection;
 
-field_t                     *game_field = NULL;
-smile_t                     *game_smile = NULL;
+field_t                     *game_field;
+smile_t                     *game_smile;
 
-counter_t                   *game_timer = NULL;
-counter_t                   *game_mines_counter = NULL;
+counter_t                   *game_timer;
+counter_t                   *game_mines_counter;
 
 int                          game_state = GAME_STATE_IDLE;
 
-int                          game_start_time = 0;
+int                          game_start_time;
 
 game_difficulty_t            game_diff_current;
 
@@ -76,7 +99,7 @@ void game_loop(void)
 
         if (game_state == GAME_STATE_STARTED)
         {
-            if (game_start_time == 0)
+            if (!game_start_time)
                 game_start_time = time(NULL);
             
             game_timer->value = time(NULL) - game_start_time;

@@ -1,12 +1,10 @@
 cmake_minimum_required(VERSION 3.23)
 project(Minesweeper VERSION 1.0 LANGUAGES C)
 
-set(CMAKE_EXE_LINKER_FLAGS "-static")
-
 find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 
-add_executable(Minesweeper
+add_executable(Minesweeper WIN32
 
     src/game/border.c
     src/game/counter.c
@@ -27,6 +25,7 @@ add_executable(Minesweeper
 
     src/glad.c
     src/main.c
+
 )
 
 set_target_properties(Minesweeper PROPERTIES
@@ -49,4 +48,5 @@ target_link_libraries(Minesweeper
         ${CMAKE_DL_LIBS}
         OpenGL::GL
         glfw
+        m
 )
