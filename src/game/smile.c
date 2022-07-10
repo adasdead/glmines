@@ -23,12 +23,10 @@
 
 #include "game/smile.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 
 #include "game/resources.h"
 #include "game/input.h"
-#include "game/field.h"
 #include "game/window.h"
 #include "game/game.h"
 

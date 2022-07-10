@@ -362,7 +362,6 @@ cell_t *field_reveal_cell(field_t *field, int cell_x, int cell_y)
             }
         }
     }
-
     
     return cell;
 }

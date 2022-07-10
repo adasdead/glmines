@@ -51,7 +51,7 @@ enum game_state
     GAME_STATE_WON
 };
 
-void game_init(void);
+void game_init(int argc, char **argv);
 void game_loop(void);
 void game_new(game_difficulty_t diff);
 void game_on_mouse(mouse_event_t e);

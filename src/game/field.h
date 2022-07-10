@@ -55,11 +55,7 @@ cell_t *field_get_cell(field_t *field, int cell_x, int cell_y);
 
 cell_t *field_reveal_cell(field_t *field, int cell_x, int cell_y);
 
-// cell_t *field_flag_cell(field_t *field, int cell_x, int cell_y);
-
 int field_get_adjacent_mines(field_t *field, int cell_x, int cell_y);
-
-// void field_reveal_all_cells(field_t *field);
 
 void field_destroy(field_t *field);
 

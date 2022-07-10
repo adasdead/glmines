@@ -34,7 +34,7 @@ enum resource_type
     RES_COUNTER
 };
 
-void resources_load_all(void);
+void resources_load_all(int argc, char **argv);
 
 render_target_t *resources_get(int res_type, int id);
 

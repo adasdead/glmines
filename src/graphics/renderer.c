@@ -23,7 +23,6 @@
 
 #include "graphics/renderer.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 
 #include "math/matrix4.h"

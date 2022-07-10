@@ -64,17 +64,15 @@ game_difficulty_t            game_diff[3] = {
 
 };
 
-void game_init(void)
+void game_init(int argc, char **argv)
 {
     window_create(WINDOW_NAME, WINDOW_BASE_WIDTH,
                   WINDOW_BASE_HEIGHT);
 
-    window_set_icon(ICON_PATH);
-
     input_mouse_callback(game_on_mouse);
     input_key_callback(game_on_key);
     
-    resources_load_all();
+    resources_load_all(argc, argv);
     
     game_projection = new_matrix4();
     game_renderer = new_renderer(&game_projection);

@@ -23,9 +23,38 @@
 
 #include "game/game.h"
 
-int main(void)
+// MSVC Hook
+#ifdef _MSC_VER
+
+#include <windows.h>
+#include <stdlib.h>
+
+#define _app_main_ _app_main
+
+int _app_main(int argc, char **argv);
+
+int WINAPI wWinMain(HINSTANCE hInst,
+                    HINSTANCE hPreInst,
+                    PWSTR lpCmdLine,
+                    int nCmdShow)
 {
-    game_init();
+    char **buffer = malloc(sizeof(char*));
+    buffer[0] = calloc(512, sizeof(char));
+
+	GetModuleFileNameA(NULL, buffer[0], 512);
+
+    return _app_main(1, (char**) buffer);
+}
+
+#else
+
+#define _app_main_ main
+
+#endif
+
+int _app_main_(int argc, char **argv)
+{
+    game_init(argc, argv);
     game_loop();
     game_free();
     return 0;

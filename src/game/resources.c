@@ -24,6 +24,9 @@
 #include "game/resources.h"
 
 #include <stdio.h>
+#include <string.h>
+
+#include "game/window.h"
 
 #include "game/border.h"
 #include "game/smile.h"
@@ -44,43 +47,64 @@ render_target_t     resources_counter_rt[10];
 
 int                 resources_loaded = 0;
 
-void resources_load_rt(render_target_t *res_ptr,
-                      char *path_fmt, int max);
+static char _exe_root_path[512];
 
-void resources_load_all(void)
+static void _resources_load_rt(render_target_t *res_ptr,
+                               const char *path_fmt, int max)
 {
-    if (!resources_loaded)
-    {
-        resources_default_shader = new_shader(DEFAULT_VSHADER_PATH,
-                                              DEFAULT_FSHADER_PATH);
-
-        resources_load_rt(resources_cell_rt, CELL_TEX_PATH_FMT,
-                          CELL_TYPES_TOTAL);
-
-        resources_load_rt(resources_border_rt, BORDER_TEX_PATH_FMT,
-                          BORDER_DIR_TOTAL);
-
-        resources_load_rt(resources_smile_rt, SMILE_TEX_PATH_FMT,
-                          SMILE_STATES_TOTAL);
-
-        resources_load_rt(resources_counter_rt, COUNTER_TEX_PATH_FMT, 10);
-        
-        resources_loaded = 1;
-    }
-}
-
-void resources_load_rt(render_target_t *res_ptr,
-                      char *path_fmt, int max)
-{
-    char file_path[256];
+    char file_path[1024];
 
     for (int i = 0; i < max; i++)
     {
-        sprintf(file_path, path_fmt, i);
+        snprintf(file_path, 1024, path_fmt, _exe_root_path, i);
 
         render_target_t *target = res_ptr + i;
         target->texture = new_texture2d(file_path);
         target->shader  = resources_default_shader;
+    }
+}
+
+void resources_load_all(int argc, char **argv)
+{
+    if (!resources_loaded)
+    {
+        strncpy(_exe_root_path, argv[0], strlen(argv[0]));
+
+        for (int i = strlen(_exe_root_path); i != 0; i--)
+        {
+            if (_exe_root_path[i] == '\\' ||
+                _exe_root_path[i] == '/')
+            {
+                _exe_root_path[i] = '\0';
+                break;
+            }
+        }
+
+        char icon_path[1024];
+        snprintf(icon_path, 1024, ICON_PATH, _exe_root_path);
+        window_set_icon(icon_path);
+
+        char shaders_path[2][1024];
+
+        snprintf(shaders_path[0], 1024, DEFAULT_VSHADER_PATH, _exe_root_path);
+        snprintf(shaders_path[1], 1024, DEFAULT_FSHADER_PATH, _exe_root_path);
+
+        resources_default_shader = new_shader(shaders_path[0],
+                                              shaders_path[1]);
+
+        _resources_load_rt(resources_cell_rt, CELL_TEX_PATH_FMT,
+                          CELL_TYPES_TOTAL);
+
+        _resources_load_rt(resources_border_rt, BORDER_TEX_PATH_FMT,
+                          BORDER_DIR_TOTAL);
+
+        _resources_load_rt(resources_smile_rt, SMILE_TEX_PATH_FMT,
+                          SMILE_STATES_TOTAL);
+
+        _resources_load_rt(resources_counter_rt, COUNTER_TEX_PATH_FMT,
+                           10);
+        
+        resources_loaded = 1;
     }
 }
 

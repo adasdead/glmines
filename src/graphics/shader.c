@@ -37,8 +37,59 @@
 #define SHADER_WARN_FMT  "OpenGL shader error / %s:\n %s\n"
 #define PROGRAM_WARN_FMT "OpenGL shader program error:\n %s\n"
 
-int _shader_check_errors(GLuint id, const char *file_path);
-char *_shader_read_file(const char *file_path);
+static int _shader_check_errors(GLuint id, const char *file_path)
+{
+    char info_log[1024];
+    int status;
+
+    if (glIsShader(id))
+    {
+        glGetShaderiv(id, GL_COMPILE_STATUS, &status);
+
+        if (!status)
+        {
+            glGetShaderInfoLog(id, 1024, NULL, info_log);
+            fprintf(stderr, SHADER_WARN_FMT, file_path, info_log);
+            return 0;
+        }
+    }
+    else if (glIsProgram(id))
+    {
+        glGetProgramiv(id, GL_LINK_STATUS, &status);
+
+        if (!status)
+        {
+            glGetProgramInfoLog(id, 1024, NULL, info_log);
+            fprintf(stderr, PROGRAM_WARN_FMT, info_log);
+            return 0;
+        }
+    }
+    else
+        return 0;
+
+    return 1;
+}
+
+static char *_shader_read_file(const char *file_path)
+{
+    errno = 0;
+    FILE *fp = fopen(file_path, "r");
+
+    if (!fp)
+    {
+        fprintf(stderr, IO_WARN_FMT, file_path, strerror(errno));
+        return NULL;
+    }
+    
+    fseek(fp, 0L, SEEK_END);
+
+    size_t size = ftell(fp);
+    char *buffer = calloc(size, sizeof(char));
+    rewind(fp);
+
+    fread(buffer, size, sizeof(char), fp);
+    return buffer;
+}
 
 shader_t new_shader(const char *vert_path,
                     const char *frag_path)
@@ -130,60 +181,4 @@ void shader_set_uniform_m4fv(shader_t shader,
 void shader_destroy(shader_t shader)
 {
     glDeleteProgram(shader);
-}
-
-/////////////////////////////////////////////////////////
-
-int _shader_check_errors(GLuint id, const char *file_path)
-{
-    char info_log[1024];
-    int status;
-
-    if (glIsShader(id))
-    {
-        glGetShaderiv(id, GL_COMPILE_STATUS, &status);
-
-        if (!status)
-        {
-            glGetShaderInfoLog(id, 1024, NULL, info_log);
-            fprintf(stderr, SHADER_WARN_FMT, file_path, info_log);
-            return 0;
-        }
-    }
-    else if (glIsProgram(id))
-    {
-        glGetProgramiv(id, GL_LINK_STATUS, &status);
-
-        if (!status)
-        {
-            glGetProgramInfoLog(id, 1024, NULL, info_log);
-            fprintf(stderr, PROGRAM_WARN_FMT, info_log);
-            return 0;
-        }
-    }
-    else
-        return 0;
-
-    return 1;
-}
-
-char *_shader_read_file(const char *file_path)
-{
-    errno = 0;
-    FILE *fp = fopen(file_path, "r");
-
-    if (!fp)
-    {
-        fprintf(stderr, IO_WARN_FMT, file_path, strerror(errno));
-        return NULL;
-    }
-    
-    fseek(fp, 0L, SEEK_END);
-
-    size_t size = ftell(fp);
-    char *buffer = calloc(size, sizeof(char));
-    rewind(fp);
-
-    fread(buffer, size, sizeof(char), fp);
-    return buffer;
 }
