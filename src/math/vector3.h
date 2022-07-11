@@ -32,7 +32,7 @@ typedef struct
 
 } vec3_t;
 
-inline vec3_t new_vector3(float x, float y, float z)
+static inline vec3_t new_vector3(float x, float y, float z)
 {
     return (vec3_t) { x, y, z };
 }
