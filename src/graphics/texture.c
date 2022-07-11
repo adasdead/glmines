@@ -46,6 +46,7 @@ tex2d_t *new_texture2d(const char *path)
     
     if (!bytes) {
         fprintf(stderr, IMAGE_LOAD_ERR_FMT, path);
+        free(new_texture);
         return NULL;
     }
 

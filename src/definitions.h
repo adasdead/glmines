@@ -26,7 +26,7 @@
 
 #define DATA_DIR                 "%s/data/"
 
-#define SCREEN_BASE_HEIGHT       480
+#define SCREEN_BASE_HEIGHT       540
 
 #define WINDOW_NAME              "Minesweeper"
 

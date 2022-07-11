@@ -52,14 +52,15 @@ smile_t *new_smile(int right, int margin_top, int state)
 
 void smile_draw(const smile_t *smile, renderer_t *r)
 {
-    float width_32 = smile->right / 2.0f;
-
     mat4_t model = new_unit_matrix4();
-    render_target_t *target;
-    vec3_t pos;
 
     if (smile)
     {
+        render_target_t *target;
+        vec3_t pos = {0};
+
+        float width_32 = smile->right / 2.0f;
+
         pos.x = (width_32 - 1.0f) / 2.0f;
         pos.y = smile->margin_top - 0.5f;
 

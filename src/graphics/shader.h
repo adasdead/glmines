@@ -40,14 +40,6 @@ void shader_set_uniform_1i(shader_t shader,
                            const char *name,
                            int val);
 
-void shader_set_uniform_1f(shader_t shader,
-                           const char *name,
-                           float val);
-
-void shader_set_uniform_3fv(shader_t shader,
-                            const char *name,
-                            vec3_t vec);
-
 void shader_set_uniform_m4fv(shader_t shader,
                              const char *name,
                              mat4_t mat);

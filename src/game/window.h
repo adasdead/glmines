@@ -41,10 +41,6 @@ void window_close(void);
 
 void window_swap_buffers(void);
 
-int window_get_height(void);
-
-int window_get_width(void);
-
 void window_free(void);
 
 #endif /* GAME_WINDOW_H */

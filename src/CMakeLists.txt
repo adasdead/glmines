@@ -22,7 +22,6 @@ target_sources(${PROJECT_NAME} PRIVATE
 
     math/matrix4.c
     math/transform.c
-    math/vector3.c
 
     glad.c
 )
@@ -36,6 +35,11 @@ target_link_libraries(${PROJECT_NAME}
     ${MATH_LIB}
     OpenGL::GL
     glfw
+)
+
+add_custom_command(TARGET ${PROJECT_NAME}
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${PROJECT_DATA_DIR} $<TARGET_FILE_DIR:${PROJECT_NAME}>/data
 )
 
 install(TARGETS ${PROJECT_NAME} RUNTIME)

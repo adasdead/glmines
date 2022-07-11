@@ -61,7 +61,7 @@ field_t *new_field(int width, int height, int mines_count)
     field->height = height;
     field->width = width;
 
-    field->cells = calloc(width, sizeof(field->cells));
+    field->cells = calloc(width, sizeof(cell_t*));
 
     for (int x = 0; x < width; x++)
     {
@@ -115,11 +115,11 @@ void field_check_won(field_t *field)
 
 void field_check_lost(field_t *field, int clck_x, int clck_y)
 {
-    cell_t *cell = field_get_cell(field, clck_x, clck_y);
+    cell_t *clk_cell = field_get_cell(field, clck_x, clck_y);
 
-    if (cell->type == CELL_TYPE_BOMB)
+    if (clk_cell->type == CELL_TYPE_BOMB)
     {
-        cell->type = CELL_TYPE_BOMB_E;
+        clk_cell->type = CELL_TYPE_BOMB_E;
 
         for (int x = 0; x < field->width; x++)
         {
@@ -182,7 +182,7 @@ void field_generate(field_t *field, int clck_x, int clck_y)
     }
 }
 
-void field_update_cell_mouse_pos(void)
+static void field_update_cell_mouse_pos(void)
 {
     double scale_factor = window_get_scale_factor();
     float cell_width = CELL_WIDTH * scale_factor;

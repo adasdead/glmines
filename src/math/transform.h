@@ -35,6 +35,4 @@ void matrix4_scale(mat4_t dest, const vec3_t vec);
 
 void matrix4_translate(mat4_t dest, const vec3_t vec);
 
-void matrix4_rotate(mat4_t dest, float angle, const vec3_t axis);
-
 #endif /* MATH_TRANSFORM_H */

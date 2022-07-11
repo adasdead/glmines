@@ -130,14 +130,13 @@ void border_draw_edges(renderer_t *r, int bottom, int right)
 }
 
 void border_draw_corners(renderer_t *r, int bottom, int right)
-{
-    render_target_t *target;
-    
+{   
     mat4_t model = new_unit_matrix4();
-    vec3_t pos;
 
     for (int i = 0; i < 4; i++)
     {
+        vec3_t pos;
+        render_target_t *target;
         target = resources_get(RES_BORDER, i);
 
         switch (i)

@@ -49,28 +49,29 @@ counter_t *new_counter(int start_val, int left, int top)
 void counter_draw(const counter_t *c, renderer_t *r)
 {
     mat4_t model = new_unit_matrix4();
-    render_target_t *target;
 
     vec3_t size;
     size.x = COUNTER_WIDTH_F;
     size.y = COUNTER_HEIGHT_F;
     size.z = 1.0f;
 
-    vec3_t pos;
-    pos.x = (c->left - 1.7f) / size.x;
-    pos.y = c->top * size.y - 0.6f;
-    pos.z = size.z;
-
-    int numbers[3] = {
-        c->value / 100 % 10,
-        c->value / 10  % 10,
-        c->value       % 10,
-    };
-
     if (c)
     {
+        vec3_t pos;
+        pos.x = (c->left - 1.7f) / size.x;
+        pos.y = c->top * size.y - 0.6f;
+        pos.z = size.z;
+
+        int numbers[3] = {
+            c->value / 100 % 10,
+            c->value / 10  % 10,
+            c->value       % 10,
+        };
+
         for (int i = 0; i < 3; i++)
         {
+            render_target_t *target;
+
             if (c->value >= 1000)
                 target = resources_get(RES_COUNTER, 9);
             else if (c->value < 0)

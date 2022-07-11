@@ -40,8 +40,6 @@ void matrix4_reset(mat4_t matrix, int mode);
 void matrix4_copy(mat4_t dest, const mat4_t src);
 
 void matrix4_mult(mat4_t dest, const mat4_t src);
-void matrix4_add(mat4_t dest, const mat4_t src);
-void matrix4_sub(mat4_t dest, const mat4_t src);
 
 float *matrix4_to_array(const mat4_t mat);
 

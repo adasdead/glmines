@@ -68,26 +68,3 @@ void matrix4_translate(mat4_t dest, const vec3_t vec)
     matrix4_mult(dest, translate_mtrx);
     matrix4_destroy(translate_mtrx);
 }
-
-void matrix4_rotate(mat4_t dest, float angle,
-                    const vec3_t axis)
-{
-    mat4_t rotate_mtrx = new_unit_matrix4();
-
-    float cos_0 = cosf(angle), sin_0 = sinf(angle);
-
-    rotate_mtrx[0][0] = cos_0 + powf(axis.x, 2.0f) * (1 - cos_0);
-    rotate_mtrx[0][1] = axis.y * axis.x * (1 - cos_0) + axis.z * sin_0;
-    rotate_mtrx[0][2] = axis.z * axis.x * (1 - cos_0) - axis.y * sin_0;
-
-    rotate_mtrx[1][0] = axis.x * axis.y * (1 - cos_0) - axis.z * sin_0;
-    rotate_mtrx[1][1] = cos_0 + powf(axis.y, 2.0f) * (1 - cos_0);
-    rotate_mtrx[1][2] = axis.z * axis.y * (1 - cos_0) + axis.x * sin_0;
-
-    rotate_mtrx[2][0] = axis.x * axis.z * (1 - cos_0) + axis.y * sin_0;
-    rotate_mtrx[2][1] = axis.y * axis.z * (1 - cos_0) - axis.x * sin_0;
-    rotate_mtrx[2][2] = cos_0 + powf(axis.z, 2.0f) * (1 - cos_0);
-
-    matrix4_mult(dest, rotate_mtrx);
-    matrix4_destroy(rotate_mtrx);
-}

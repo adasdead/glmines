@@ -91,7 +91,7 @@ double window_get_scale_factor(void)
 {
     const GLFWvidmode *video_mode;
     video_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-    return (video_mode->height) / SCREEN_BASE_HEIGHT;
+    return (video_mode->height) * 1.f / SCREEN_BASE_HEIGHT;
 }
 
 void window_clear(float r, float g, float b)
@@ -125,16 +125,6 @@ void window_close(void)
 void window_swap_buffers(void)
 {
     glfwSwapBuffers(glfw_window);
-}
-
-int window_get_height(void)
-{
-    return window_height;
-}
-
-int window_get_width(void)
-{
-    return window_width;
 }
 
 void window_free(void)

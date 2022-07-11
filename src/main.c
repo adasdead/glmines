@@ -23,15 +23,14 @@
 
 #include "game/game.h"
 
-// MSVC Hook
 #ifdef _MSC_VER
+
+#define __main __win_main
 
 #include <windows.h>
 #include <stdlib.h>
 
-#define _app_main_ _app_main
-
-int _app_main(int argc, char **argv);
+int __win_main(int argc, char **argv);
 
 int WINAPI wWinMain(HINSTANCE hInst,
                     HINSTANCE hPreInst,
@@ -43,16 +42,14 @@ int WINAPI wWinMain(HINSTANCE hInst,
 
 	GetModuleFileNameA(NULL, buffer[0], 512);
 
-    return _app_main(1, (char**) buffer);
+    return __win_main(1, (char**) buffer);
 }
 
 #else
-
-#define _app_main_ main
-
+#   define __main main
 #endif
 
-int _app_main_(int argc, char **argv)
+int __main(int argc, char **argv)
 {
     game_init(argc, argv);
     game_loop();

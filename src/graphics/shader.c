@@ -88,6 +88,8 @@ static char *_shader_read_file(const char *file_path)
     rewind(fp);
 
     fread(buffer, size, sizeof(char), fp);
+    fclose(fp);
+
     return buffer;
 }
 
@@ -150,22 +152,6 @@ void shader_set_uniform_1i(shader_t shader,
 {
     GLint loc = glGetUniformLocation(shader, name);
     glUniform1i(loc, val);
-}
-
-void shader_set_uniform_1f(shader_t shader,
-                           const char *name,
-                           float val)
-{
-    GLint loc = glGetUniformLocation(shader, name);
-    glUniform1f(loc, val);
-}
-
-void shader_set_uniform_3fv(shader_t shader,
-                            const char *name,
-                            vec3_t vec)
-{
-    GLint loc = glGetUniformLocation(shader, name);
-    glUniform3f(loc, vec.x, vec.y, vec.z);
 }
 
 void shader_set_uniform_m4fv(shader_t shader,

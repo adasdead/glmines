@@ -89,24 +89,6 @@ void matrix4_mult(mat4_t dest, const mat4_t src)
     matrix4_destroy(temp_mtrx);
 }
 
-void matrix4_add(mat4_t dest, const mat4_t src)
-{
-    for (int i = 0; i < MATRIX4_SIZE; i++)
-    {
-        for (int j = 0; j < MATRIX4_SIZE; j++)
-            dest[i][j] += src[i][j];
-    }
-}
-
-void matrix4_sub(mat4_t dest, const mat4_t src)
-{
-    for (int i = 0; i < MATRIX4_SIZE; i++)
-    {
-        for (int j = 0; j < MATRIX4_SIZE; j++)
-            dest[i][j] -= src[i][j];
-    }
-}
-
 float *matrix4_to_array(const mat4_t mat)
 {
     float *array;
