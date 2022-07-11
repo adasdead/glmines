@@ -31,8 +31,6 @@ void window_resize(int width, int height);
 
 double window_get_scale_factor(void);
 
-void window_clear(float r, float g, float b);
-
 void window_set_icon(char *icon_path);
 
 int window_is_opened(void);

@@ -31,7 +31,8 @@ enum resource_type
     RES_CELL,
     RES_BORDER,
     RES_SMILE,
-    RES_COUNTER
+    RES_COUNTER,
+    RES_BG_TEX
 };
 
 void resources_load_all(int argc, char **argv);

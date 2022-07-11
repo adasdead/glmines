@@ -85,11 +85,17 @@ void game_init(int argc, char **argv)
 
 void game_loop(void)
 {
+    render_target_t *bg_tex = resources_get(RES_BG_TEX, 0);
+
     while (window_is_opened())
     {
-        input_handle();
+        mat4_t model = new_unit_matrix4();
+        matrix4_scale(model, new_vector3(
+                      game_field->width + 2.f,
+                      game_field->height + 2.f,
+                      0.0f));
 
-        window_clear(0.755f, 0.755f, 0.755f);
+        renderer_draw(game_renderer, model, bg_tex);
 
         border_draw(game_renderer, game_field);
         field_draw(game_field, game_renderer);
@@ -106,7 +112,10 @@ void game_loop(void)
         counter_draw(game_mines_counter, game_renderer);
         counter_draw(game_timer, game_renderer);
 
+        matrix4_destroy(model);
+
         window_swap_buffers();
+        input_handle();
     }
 }
 

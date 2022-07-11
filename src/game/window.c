@@ -94,12 +94,6 @@ double window_get_scale_factor(void)
     return (video_mode->height) * 1.f / SCREEN_BASE_HEIGHT;
 }
 
-void window_clear(float r, float g, float b)
-{
-    glClearColor(r, g, b, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-}
-
 void window_set_icon(char *icon_path)
 {
     GLFWimage image;

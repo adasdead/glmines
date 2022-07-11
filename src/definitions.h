@@ -56,6 +56,8 @@
 #define DEFAULT_VSHADER_PATH     DATA_DIR"shaders/default.vert"
 #define DEFAULT_FSHADER_PATH     DATA_DIR"shaders/default.frag"
 
+#define BACKGROUND_TEX_PATH      DATA_DIR"textures/bg_tex.png"
+
 #define ICON_PATH                DATA_DIR"icon.png"
 
 #endif /* DEFINITIONS_H */
